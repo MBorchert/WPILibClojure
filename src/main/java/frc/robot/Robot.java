@@ -4,11 +4,11 @@
 
 package frc.robot;
 
-import clojure.lang.Var;
+import clojure.java.api.Clojure;
 
 import java.io.IOException;
 
-import clojure.lang.RT;
+import clojure.lang.IFn;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -21,21 +21,14 @@ public class Robot extends TimedRobot {
   Object please;
   @Override
   public void robotInit() {
-    try {
-      RT.loadResourceScript("main/clojure/frc/robot/foo.clj");
-      Var a = RT.var("main.clojure.frc.robot.foo", "foo");
-      Object b = a.invoke("Hi", "there");
-      System.out.println(b);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    IFn asdf = Clojure.var("frc.robot.foo", "asdf");
+    asdf.invoke();
     m_robotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    //System.out.println("=> " + please);
   }
 
   @Override

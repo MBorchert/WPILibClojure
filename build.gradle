@@ -1,11 +1,27 @@
 plugins {
     id "java"
+	id "dev.clojurephant.clojure" version "0.8.0-beta.7"
     id "edu.wpi.first.GradleRIO" version "2024.3.2"
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+repositories {
+	maven {
+		name = "Clojars"
+		url = "https://repo.clojars.org/"
+	}
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+clojure.builds {
+    main {
+        classpath.from = sourceSets.main.compileClasspath
+        aotAll()
+    }
 }
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
@@ -67,18 +83,27 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// needed for test integration
+	testRuntimeOnly 'dev.clojurephant:jovial:0.4.2'
+	// and any other test-specific dependencies
+	// testImplementation 'group:artifact:version'
+
+	// dependencies for REPL use only
+	devImplementation 'org.clojure:tools.namespace:1.3.0'
 
     implementation 'org.clojure:clojure:1.11.3'
-
-    //"lein.bat jar".execute()
-    implementation files('target/default-0.1.0-SNAPSHOT.jar')
 }
 
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+}
+
+tasks.withType(Test) {
+	useJUnitPlatform()
 }
 
 // Simulation configuration (e.g. environment variables).
@@ -102,5 +127,6 @@ wpi.java.configureTestTasks(test)
 
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
+    classpath += files(sourceSets.main.clojure.classesDirectory)
     options.compilerArgs.add '-XDstringConcat=inline'
 }

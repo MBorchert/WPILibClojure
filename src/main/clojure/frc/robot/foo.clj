@@ -1,5 +1,10 @@
-(ns main.clojure.frc.robot.foo 
-    (:gen-class))
+(ns frc.robot.foo 
+  (:gen-class))
 
-(defn foo [a b]
-    (str a " " b))
+(defn asdf
+  []
+  (println "bsdf"))
+
+(defn -main
+  [& args]
+  (println "asdf"))

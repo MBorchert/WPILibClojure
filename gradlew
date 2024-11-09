@@ -61,9 +61,9 @@
 #       You can find Gradle at https://github.com/gradle/gradle/.
 #
 ##############################################################################
+JAVA_HOME="C:/Users/Public/wpilib/2024/jdk"
 
 # Attempt to set APP_HOME
-
 # Resolve links: $0 may be a link
 app_path=$0
 
