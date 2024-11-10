@@ -2,7 +2,6 @@ plugins {
     id "java"
 	id "dev.clojurephant.clojure" version "0.8.0-beta.7"
     id "edu.wpi.first.GradleRIO" version "2024.3.2"
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 repositories {
@@ -13,8 +12,8 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 clojure.builds {
